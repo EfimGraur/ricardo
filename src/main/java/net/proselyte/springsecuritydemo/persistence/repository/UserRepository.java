@@ -1,6 +1,6 @@
-package net.proselyte.springsecuritydemo.repository;
+package net.proselyte.springsecuritydemo.persistence.repository;
 
-import net.proselyte.springsecuritydemo.model.User;
+import net.proselyte.springsecuritydemo.persistence.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
