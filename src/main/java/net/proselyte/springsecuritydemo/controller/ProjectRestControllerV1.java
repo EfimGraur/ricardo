@@ -22,6 +22,7 @@ public class ProjectRestControllerV1 {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('projects:read')")
     public List<ProjectData> getAll() {
         return projectService.getAllProjects();
     }
