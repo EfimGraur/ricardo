@@ -6,13 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.3</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
-    <groupId>net.proselyte</groupId>
-    <artifactId>springsecuritydemo</artifactId>
+    <groupId>com.ricardo</groupId>
+    <artifactId>pmtool</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springsecuritydemo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>Project Management Tool</name>
+    <description>Project Management Tool</description>
     <properties>
         <java.version>11</java.version>
         <jjwt.version>0.9.1</jjwt.version>
