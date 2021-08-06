@@ -1,5 +1,6 @@
 package com.ricardo.pmtool.service;
 
+import com.ricardo.pmtool.data.UserData;
 import com.ricardo.pmtool.persistence.model.Project;
 import com.ricardo.pmtool.data.ProjectData;
 
@@ -10,7 +11,7 @@ public interface ProjectService {
 
     ProjectData getProjectById(Long id);
 
-    ProjectData createProject(Project project);
+    Long createProject(ProjectData projectData);
 
     void deleteProjectById(Long id);
 }

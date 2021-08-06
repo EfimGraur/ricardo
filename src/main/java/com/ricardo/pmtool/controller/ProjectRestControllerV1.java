@@ -1,12 +1,17 @@
 package com.ricardo.pmtool.controller;
 
+import com.ricardo.pmtool.data.UserData;
 import com.ricardo.pmtool.persistence.model.Project;
 import com.ricardo.pmtool.data.ProjectData;
 import com.ricardo.pmtool.service.ProjectService;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -34,13 +39,27 @@ public class ProjectRestControllerV1 {
 
     @PostMapping
     @PreAuthorize("hasAuthority('projects:write')")
-    public ProjectData create(@RequestBody Project project) {
-        return projectService.createProject(project);
+    public ResponseEntity<Object> createProject(@RequestBody ProjectData projectData) {
+        try
+        {
+            Long newProjectId = projectService.createProject(projectData);
+
+            URI newUserLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/api/v1/projects/{id}")
+                    .buildAndExpand(newProjectId)
+                    .toUri();
+
+            return ResponseEntity.created(newUserLocation).build();
+        }
+        catch (final Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('projects:write')")
-    public void deleteById(@PathVariable Long id) {
+    public void deleteProjectById(@PathVariable Long id) {
         projectService.deleteProjectById(id);
     }
 }

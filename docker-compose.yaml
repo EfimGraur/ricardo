@@ -1,0 +1,32 @@
+version: "3.7"
+
+x-db-init: &pmtool-db-volumes
+  - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+  - ./db/afterMigrate__seeds.sql:/docker-entrypoint-initdb.d/02_seeds.sql:ro
+
+
+services:
+  pmtool-api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pmtool-db
+    restart: on-failure
+
+  pmtool-db:
+    image: mariadb:10.3
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      # mariadb credentials from config.yaml
+      MYSQL_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_DATABASE: pmtool
+    ports:
+      # mariadb port from config.yaml
+      - "127.0.0.1:3306:3306"
+    volumes: *pmtool-db-volumes

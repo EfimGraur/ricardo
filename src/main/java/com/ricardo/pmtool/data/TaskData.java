@@ -1,6 +1,6 @@
 package com.ricardo.pmtool.data;
 
-import com.ricardo.pmtool.persistence.model.TaskStatus;
+import com.ricardo.pmtool.status.TaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

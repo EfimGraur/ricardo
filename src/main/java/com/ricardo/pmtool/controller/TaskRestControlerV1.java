@@ -2,9 +2,8 @@ package com.ricardo.pmtool.controller;
 
 import com.ricardo.pmtool.data.TaskData;
 import com.ricardo.pmtool.service.TaskService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,16 +28,16 @@ public class TaskRestControlerV1 {
 //        return taskRepository.getById(id);
 //    }
 
-//    @PostMapping
+    //    @PostMapping
 //    @PreAuthorize("hasAuthority('tasks:write')")
 //    public Task create(@RequestBody Task task) {
 //        taskRepository.save(task);
 //        return task;
 //    }
 //
-//    @DeleteMapping("/{id}")
-//    @PreAuthorize("hasAuthority('tasks:write')")
-//    public void deleteById(@PathVariable Long id) {
-//        taskRepository.deleteById(id);
-//    }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('tasks:write')")
+    public void deleteById(@PathVariable Long id) {
+        taskService.deleteById(id);
+    }
 }

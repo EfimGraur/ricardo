@@ -3,6 +3,7 @@ package com.ricardo.pmtool.service.impl;
 import com.ricardo.pmtool.persistence.model.Project;
 import com.ricardo.pmtool.converter.ProjectConverter;
 import com.ricardo.pmtool.data.ProjectData;
+import com.ricardo.pmtool.persistence.model.User;
 import com.ricardo.pmtool.persistence.repository.ProjectRepository;
 import com.ricardo.pmtool.service.ProjectService;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectData createProject(Project project) {
-        return null;
+    public Long createProject(ProjectData projectData) {
+        final Project project = projectConverter.convert(projectData);
+        return projectRepository.save(project).getId();
     }
 
     @Override
     public void deleteProjectById(Long id) {
-
+            projectRepository.deleteById(id);
     }
 }

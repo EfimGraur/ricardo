@@ -28,9 +28,17 @@ public class User {
 //    @OneToOne
 //    private Project project;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user")
     private List<Project> projects;
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
+
+    //When removing a user this will unasign all projects and tasks that where owned by the user
+    @PreRemove
+    public void unassignTasksAndProjects(){
+        projects.forEach(project -> project.setUser(null));
+        tasks.forEach(task -> task.setUser(null));
+    }
+
 }

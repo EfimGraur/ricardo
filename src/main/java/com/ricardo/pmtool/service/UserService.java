@@ -16,4 +16,12 @@ public interface UserService {
     List<TaskData> getAllTasksByUser(long userId);
 
     List<UserData> getUsers();
+
+    List<UserData> getAllByRole(String role);
+
+    UserData getUserById(long userId);
+
+    void deleteUserById(long userId);
+
+    Long createUser(UserData userData);
 }

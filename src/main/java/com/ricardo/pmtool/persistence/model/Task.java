@@ -1,6 +1,7 @@
 package com.ricardo.pmtool.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ricardo.pmtool.status.TaskStatus;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Task {
 
     private String description;
 
+
     private int progress;
 
     @Enumerated(value = EnumType.STRING)
@@ -22,8 +24,7 @@ public class Task {
 
     private Date deadline;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, optional = false)
-    @JsonBackReference
+    @ManyToOne()
     private Project project;
 
     @ManyToOne

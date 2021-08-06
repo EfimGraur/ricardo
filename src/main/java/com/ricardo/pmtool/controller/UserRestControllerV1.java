@@ -4,14 +4,18 @@ import com.ricardo.pmtool.data.ProjectData;
 import com.ricardo.pmtool.data.TaskData;
 import com.ricardo.pmtool.data.UserData;
 import com.ricardo.pmtool.service.UserService;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 import java.util.List;
+
+import static com.ricardo.pmtool.constants.GenericConstants.ALL_USERS;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -26,19 +30,25 @@ public class UserRestControllerV1 {
 
     @GetMapping
     @PreAuthorize("hasAuthority('users:read')")
-    public List<UserData> getAll() {
-        return userService.getUsers();
+    public List<UserData> getAllByRole(@RequestParam(defaultValue = ALL_USERS) String role) {
+        return userService.getAllByRole(role);
     }
-//
-//    @GetMapping("/{id}")
-//    @PreAuthorize("hasAuthority('users:read')")
-//    public User getById(@PathVariable Long id) {
-//        return userRepository.getById(id);
-//    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('users:read')")
+    public UserData getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('users:write')")
+    public void deleteUserById(@PathVariable Long id) {
+        userService.deleteUserById(id);
+    }
 
     @GetMapping("/{userId}/projects/{projectId}")
     @PreAuthorize("hasAuthority('projects:read')")
-    public ProjectData getById(@PathVariable Long userId, @PathVariable Long projectId) {
+    public ProjectData getProjectByUserId(@PathVariable Long userId, @PathVariable Long projectId) {
         return userService.getProject(userId, projectId);
     }
 
@@ -60,12 +70,25 @@ public class UserRestControllerV1 {
         return userService.getAllTasksByUser(userId);
     }
 
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('users:write')")
-//    public User create(@RequestBody User user) {
-//        userRepository.save(user);
-//        return user;
-//    }
+    @PostMapping
+    @PreAuthorize("hasAuthority('users:write')")
+    public ResponseEntity<Object> createUser(@RequestBody UserData userData) {
+        try
+        {
+            Long userId = userService.createUser(userData);
+
+            URI newUserLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/api/v1/users/{id}")
+                    .buildAndExpand(userId)
+                    .toUri();
+
+            return ResponseEntity.created(newUserLocation).build();
+        }
+        catch (final Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
+        }
+    }
 //
 //    @DeleteMapping("/{id}")
 //    @PreAuthorize("hasAuthority('users:write')")

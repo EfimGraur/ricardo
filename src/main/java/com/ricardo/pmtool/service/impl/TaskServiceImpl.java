@@ -1,8 +1,8 @@
 package com.ricardo.pmtool.service.impl;
 
-import com.ricardo.pmtool.persistence.model.Task;
 import com.ricardo.pmtool.converter.TaskConverter;
 import com.ricardo.pmtool.data.TaskData;
+import com.ricardo.pmtool.persistence.model.Task;
 import com.ricardo.pmtool.persistence.repository.TaskRepository;
 import com.ricardo.pmtool.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteById(Long id) {
-
+        taskRepository.deleteById(id);
     }
 }
