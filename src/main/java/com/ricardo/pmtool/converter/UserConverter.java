@@ -1,10 +1,9 @@
 package com.ricardo.pmtool.converter;
 
-import com.ricardo.pmtool.persistence.model.User;
 import com.ricardo.pmtool.data.UserData;
+import com.ricardo.pmtool.persistence.model.User;
 import com.ricardo.pmtool.roles.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +35,10 @@ public class UserConverter {
         user.setLastName(userData.getLastName());
         user.setUsername(userData.getUsername());
         user.setRole(Role.valueOf(userData.getRole()));
-        user.setPassword(passwordEncoder.encode(userData.getPassword()));
+        //Better to user Optional
+        if (userData.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userData.getPassword()));
+        }
         return user;
     }
 }

@@ -3,6 +3,7 @@ package com.ricardo.pmtool.security;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,10 +37,11 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, String role, Long userId) {
-        Claims claims = Jwts.claims().setSubject(username);
+    public String createToken(String email, String role, Long userId, String username) {
+        Claims claims = Jwts.claims().setSubject(email);
         claims.put("role", role);
         claims.put("userId", userId);
+        claims.put("username", username);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds * 1000);
 

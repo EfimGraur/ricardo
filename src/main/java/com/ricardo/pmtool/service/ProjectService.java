@@ -14,4 +14,6 @@ public interface ProjectService {
     Long createProject(ProjectData projectData);
 
     void deleteProjectById(Long id);
+
+    void updateProject(ProjectData projectData, Long projectId);
 }

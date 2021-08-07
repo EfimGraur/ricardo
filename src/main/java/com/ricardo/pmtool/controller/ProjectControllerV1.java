@@ -16,12 +16,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/projects")
-public class ProjectRestControllerV1 {
+public class ProjectControllerV1 {
 
     private final ProjectService projectService;
 
     @Autowired
-    public ProjectRestControllerV1(ProjectService projectService) {
+    public ProjectControllerV1(ProjectService projectService) {
         this.projectService = projectService;
     }
 
@@ -54,6 +54,21 @@ public class ProjectRestControllerV1 {
         catch (final Exception e)
         {
             return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{projectId}")
+    @PreAuthorize("hasAuthority('projects:write')")
+    public ResponseEntity<Object> updateProject(@PathVariable Long projectId, @RequestBody ProjectData projectData) {
+        try
+        {
+            projectService.updateProject(projectData, projectId);
+
+            return ResponseEntity.noContent().build();
+        }
+        catch (final Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

@@ -2,6 +2,7 @@ package com.ricardo.pmtool.security;
 
 import com.ricardo.pmtool.persistence.model.User;
 import lombok.Data;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

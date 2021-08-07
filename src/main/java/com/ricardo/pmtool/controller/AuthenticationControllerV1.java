@@ -1,8 +1,10 @@
 package com.ricardo.pmtool.controller;
 
+import com.ricardo.pmtool.data.AuthenticationData;
 import com.ricardo.pmtool.persistence.model.User;
 import com.ricardo.pmtool.persistence.repository.UserRepository;
 import com.ricardo.pmtool.security.JwtTokenProvider;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,25 +22,26 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthenticationRestControllerV1 {
+@Profile("!test")
+public class AuthenticationControllerV1 {
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+    public AuthenticationControllerV1(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request){
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationData request){
        try{
         String email = request.getEmail();
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email,request.getPassword()));
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()-> new UsernameNotFoundException("User does not exist"));
-        String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name(), user.getId());
+        String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name(), user.getId(), user.getUsername());
         Map<Object,Object> response = new HashMap<>();
         response.put("email", request.getEmail());
         response.put("token", token);

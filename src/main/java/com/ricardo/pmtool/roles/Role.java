@@ -19,7 +19,8 @@ public enum Role {
             Permission.PROJECTS_READ,
             Permission.PROJECTS_WRITE,
             Permission.TASKS_READ,
-            Permission.TASKS_WRITE)
+            Permission.TASKS_WRITE,
+            Permission.USERS_READ)
     ),
     DEV(Set.of(
             Permission.TASKS_READ,

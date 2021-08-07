@@ -15,8 +15,8 @@ public class TaskData {
     private String description;
     private String pm;
     private int progress;
-    private TaskStatus status;
+    private String status;
     private Date deadline;
-    private String project;
+    private String projectCode;
     private String assignee;
 }

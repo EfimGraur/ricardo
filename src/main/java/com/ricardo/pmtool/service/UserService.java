@@ -15,13 +15,13 @@ public interface UserService {
 
     List<TaskData> getAllTasksByUser(long userId);
 
-    List<UserData> getUsers();
-
-    List<UserData> getAllByRole(String role);
+    List<UserData> getAllUsers(String role);
 
     UserData getUserById(long userId);
 
     void deleteUserById(long userId);
 
     Long createUser(UserData userData);
+
+    void updateUser(UserData userData, Long userId);
 }

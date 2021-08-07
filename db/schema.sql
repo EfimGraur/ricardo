@@ -47,10 +47,10 @@ create table users
     `last_name`  varchar(255)              not null,
     `password`   varchar(255)              null,
     `role`       varchar(30) default 'DEV' not null,
+    constraint users_email_uindex unique (email),
     constraint users_username_uindex unique (`username`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
-
 
 
 create table users_projects
