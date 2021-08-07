@@ -51,17 +51,3 @@ create table users
     constraint users_username_uindex unique (`username`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
-
-
-create table users_projects
-(
-    `user_id`     int null,
-    `projects_id` int not null primary key
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;;
-
-
-
-
-
-
