@@ -15,7 +15,7 @@ create table project
     constraint Project_code_uindex
         unique (`code`),
     constraint fk_project_users
-        foreign key (`user_id`) references users (id)
+        foreign key (`user_id`) references user (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
@@ -32,7 +32,7 @@ create table task
     constraint fk_task_project
         foreign key (`project_id`) references project (`id`),
     constraint fk_task_users
-        foreign key (`user_id`) references users (id)
+        foreign key (`user_id`) references user (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 

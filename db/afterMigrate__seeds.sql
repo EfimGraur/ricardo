@@ -1,5 +1,5 @@
 -- TRUNCATE TABLE users;
-INSERT INTO users(id, username, email, first_name, last_name, password, role)
+INSERT INTO user(id, username, email, first_name, last_name, password, role)
 VALUES
 (1,'superadmin', 'admin@mail.com', 'admin', 'adminov','$2y$12$xSA2vSxfw8JONfp/0GbiMe52MRnkSC4J7hm7/aL2EsQP5gsP3zSNS', 'ADMIN' ),
 (3,'billondop', 'pm@mail.com', 'Bill', 'Clinton','$2y$12$xSA2vSxfw8JONfp/0GbiMe52MRnkSC4J7hm7/aL2EsQP5gsP3zSNS', 'PM' ),
