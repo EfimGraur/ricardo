@@ -37,7 +37,7 @@ create table task
   DEFAULT CHARSET = utf8;
 
 
-create table users
+create table user
 (
     `id`         int auto_increment
         primary key,

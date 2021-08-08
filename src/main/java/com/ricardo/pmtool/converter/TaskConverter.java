@@ -41,7 +41,7 @@ public class TaskConverter {
     }
 
     public Task convert(final TaskData taskData) {
-        final Task task = new Task();
+        Task task = new Task();
         task.setDescription(taskData.getDescription());
         task.setProgress(taskData.getProgress());
         task.setStatus(TaskStatus.valueOf(taskData.getStatus()));

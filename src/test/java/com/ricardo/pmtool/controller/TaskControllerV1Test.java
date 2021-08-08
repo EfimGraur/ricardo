@@ -43,7 +43,7 @@ public class TaskControllerV1Test {
     public void testGetAllTasksSuccess() throws Exception {
         when(taskService
                 .getAllTask())
-                .thenReturn(Arrays.asList(TEST_TASK1, TEST_TASK2));
+                .thenReturn(Arrays.asList(TEST_TASK1_DTO, TEST_TASK2_DTO));
         String expectedResult =
                 "[{id:1,description:dummy_description, pm:dummy_pm, progress:12, status:dummy_status, projectCode:dummy_code, assignee:dummy_assignee}," +
                         "{id:2,description:dummy_description2, pm:dummy_pm, progress:12, status:dummy_status, projectCode:dummy_code2, assignee:dummy_assignee2}]";
@@ -75,7 +75,7 @@ public class TaskControllerV1Test {
 
         when(taskService
                 .getTaskById(TEST_ID))
-                .thenReturn(TEST_TASK1);
+                .thenReturn(TEST_TASK1_DTO);
 
         mockMvc
                 .perform(get("/api/v1/tasks/1"))

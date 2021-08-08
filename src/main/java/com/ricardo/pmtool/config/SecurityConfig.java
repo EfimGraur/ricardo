@@ -18,6 +18,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static com.ricardo.pmtool.constants.RequestMappings.LOGIN_URL;
+import static com.ricardo.pmtool.constants.RequestMappings.SWAGGER_URL;
 
 @Configuration
 @EnableWebSecurity

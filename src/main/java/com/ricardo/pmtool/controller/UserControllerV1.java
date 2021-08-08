@@ -1,5 +1,6 @@
 package com.ricardo.pmtool.controller;
 
+import com.ricardo.pmtool.data.ProjectData;
 import com.ricardo.pmtool.data.TaskData;
 import com.ricardo.pmtool.data.UserData;
 import com.ricardo.pmtool.service.UserService;
@@ -45,30 +46,30 @@ public class UserControllerV1 {
     public void deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
     }
-//fixme
-//    @GetMapping("/{userId}/projects/{projectId}")
-//    @PreAuthorize("hasAuthority('projects:read')")
-//    public ProjectData getProjectByUserId(@PathVariable Long userId, @PathVariable Long projectId) {
-//        return userService.getProject(userId, projectId);
-//    }
-//fixme
-//    @GetMapping("/{userId}/projects")
-//    @PreAuthorize("hasAuthority('projects:read')")
-//    public List<ProjectData> getAllProjectsByUser(@PathVariable Long userId) {
-//        return userService.getAllProjectsByUser(userId);
-//    }
+
+    @GetMapping("/{userId}/projects/{projectId}")
+    @PreAuthorize("hasAuthority('projects:read')")
+    public ProjectData getProjectByUserId(@PathVariable Long userId, @PathVariable Long projectId) {
+        return userService.getProject(userId, projectId);
+    }
+
+    @GetMapping("/{userId}/projects")
+    @PreAuthorize("hasAuthority('projects:read')")
+    public List<ProjectData> getAllProjectsByUser(@PathVariable Long userId) {
+        return userService.getAllProjectsByUser(userId);
+    }
 
     @GetMapping("/{userId}/projects/tasks")
     @PreAuthorize("hasAuthority('tasks:read')")
     public List<TaskData> getAllTasksByPM(@PathVariable Long userId) {
         return userService.getAllTasksByPM(userId);
     }
-//fixme
-//    @GetMapping("/{userId}/tasks")
-//    @PreAuthorize("hasAuthority('tasks:read')")
-//    public List<TaskData> getAllTasksByUser(@PathVariable Long userId) {
-//        return userService.getAllTasksByUser(userId);
-//    }
+
+    @GetMapping("/{userId}/tasks")
+    @PreAuthorize("hasAuthority('tasks:read')")
+    public List<TaskData> getAllTasksByUser(@PathVariable Long userId) {
+        return userService.getAllTasksByUser(userId);
+    }
 
     @PostMapping
     @PreAuthorize("hasAuthority('users:write')")

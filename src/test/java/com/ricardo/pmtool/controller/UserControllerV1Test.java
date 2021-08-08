@@ -44,7 +44,7 @@ public class UserControllerV1Test {
     public void testGetAllUsersSuccess() throws Exception {
         when(userService
                 .getAllUsers(ALL_USERS_QUERY_PARAM))
-                .thenReturn(Arrays.asList(TEST_USER1, TEST_USER2));
+                .thenReturn(Arrays.asList(TEST_USER1_DTO, TEST_USER2_DTO));
         String expectedResult =
                 "[{id:1,email:dummy_email, firstName:dummy_first_name, lastName: dummy_last_name, username: dummy_username, role:ADMIN, password:null}," +
                         "{id:2,email:dummy_email2, firstName:dummy_first_name2, lastName: dummy_last_name2, username: dummy_username2, role:ADMIN, password:null}]";
@@ -77,7 +77,7 @@ public class UserControllerV1Test {
 
         when(userService
                 .getUserById(TEST_ID))
-                .thenReturn(TEST_USER1);
+                .thenReturn(TEST_USER1_DTO);
 
         mockMvc
                 .perform(get(USERS_URL_BY_ID, TEST_ID))

@@ -29,7 +29,7 @@ public class UserConverter {
     }
 
     public User convert(final UserData userData) {
-        final User user = new User();
+        User user = new User();
         user.setEmail(userData.getEmail());
         user.setFirstName(userData.getFirstName());
         user.setLastName(userData.getLastName());
@@ -41,4 +41,5 @@ public class UserConverter {
         }
         return user;
     }
+
 }

@@ -7,26 +7,36 @@ x-db-init: &pmtool-db-volumes
 
 services:
   pmtool-api:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-
+    build: .
+    container_name: pmtool-api
     ports:
-      - "8000:8000"
+      - "8080:8080"
     depends_on:
       - pmtool-db
+    environment: # Pass environment variables to the service
+      SPRING_DATASOURCE_URL: jdbc:mariadb://pmtool-db:3306/pmtool
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
     restart: on-failure
+    networks:
+      - common-network
 
   pmtool-db:
     image: mariadb:10.3
     restart: always
+    container_name: pmtool-db
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-      # mariadb credentials from config.yaml
       MYSQL_PASSWORD: password
       MYSQL_USER: user
       MYSQL_DATABASE: pmtool
     ports:
-      # mariadb port from config.yaml
-      - "127.0.0.1:3306:3306"
+      - "3306:3306"
     volumes: *pmtool-db-volumes
+    networks:
+      - common-network
+
+#Docker Networks
+networks:
+  common-network:
+    driver: bridge

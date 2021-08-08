@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ricardo</groupId>
     <artifactId>pmtool</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>Project Management Tool</name>
     <description>Project Management Tool</description>
     <properties>
@@ -74,6 +74,12 @@
             <version>5.5.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.5.10</version>
+        </dependency>
+
     </dependencies>
 
     <build>

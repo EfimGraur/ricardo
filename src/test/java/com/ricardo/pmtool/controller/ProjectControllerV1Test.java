@@ -43,7 +43,7 @@ public class ProjectControllerV1Test {
     public void testGetAllProjectsSuccess() throws Exception {
         when(projectService
                 .getAllProjects())
-                .thenReturn(Arrays.asList(TEST_PROJECT1, TEST_PROJECT2));
+                .thenReturn(Arrays.asList(TEST_PROJECT1_DTO, TEST_PROJECT2_DTO));
         String expectedResult =
                 "[{id:1,code:dummy_code, name:dummy_project_name, assignee: dummy_assignee}," +
                         "{id:2,code:dummy_code2, name:dummy_project_name2, assignee: dummy_assignee2}]";
@@ -75,7 +75,7 @@ public class ProjectControllerV1Test {
 
         when(projectService
                 .getProjectById(TEST_ID))
-                .thenReturn(TEST_PROJECT1);
+                .thenReturn(TEST_PROJECT1_DTO);
 
         mockMvc
                 .perform(get(PROJECTS_URL_BY_ID, TEST_ID))
