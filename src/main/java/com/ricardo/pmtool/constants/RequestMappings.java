@@ -9,4 +9,5 @@ public class RequestMappings {
     public static final String PROJECTS_URL_BY_ID = "/api/v1/projects/{id}";
     public static final String TASKS_URL = "/api/v1/tasks";
     public static final String TASKS_URL_BY_ID = "/api/v1/tasks/{id}";
+    public static final String AUTH_URL = "/api/v1/auth";
 }

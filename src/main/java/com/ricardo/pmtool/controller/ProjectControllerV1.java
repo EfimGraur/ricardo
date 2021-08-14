@@ -1,7 +1,5 @@
 package com.ricardo.pmtool.controller;
 
-import com.ricardo.pmtool.data.UserData;
-import com.ricardo.pmtool.persistence.model.Project;
 import com.ricardo.pmtool.data.ProjectData;
 import com.ricardo.pmtool.service.ProjectService;
 import org.apache.http.HttpStatus;
@@ -14,8 +12,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static com.ricardo.pmtool.constants.RequestMappings.PROJECTS_URL;
+
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping(PROJECTS_URL)
 public class ProjectControllerV1 {
 
     private final ProjectService projectService;
@@ -40,8 +40,7 @@ public class ProjectControllerV1 {
     @PostMapping
     @PreAuthorize("hasAuthority('projects:write')")
     public ResponseEntity<Object> createProject(@RequestBody ProjectData projectData) {
-        try
-        {
+        try {
             Long newProjectId = projectService.createProject(projectData);
 
             URI newUserLocation = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -50,9 +49,9 @@ public class ProjectControllerV1 {
                     .toUri();
 
             return ResponseEntity.created(newUserLocation).build();
-        }
-        catch (final Exception e)
-        {
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
+        } catch (final Exception e) {
             return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -60,14 +59,13 @@ public class ProjectControllerV1 {
     @PutMapping("/{projectId}")
     @PreAuthorize("hasAuthority('projects:write')")
     public ResponseEntity<Object> updateProject(@PathVariable Long projectId, @RequestBody ProjectData projectData) {
-        try
-        {
+        try {
             projectService.updateProject(projectData, projectId);
 
             return ResponseEntity.noContent().build();
-        }
-        catch (final Exception e)
-        {
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
+        } catch (final Exception e) {
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }

@@ -35,7 +35,9 @@ public class TaskConverter {
         taskData.setDescription(task.getDescription());
         if (task.getProject() != null) {
             taskData.setProjectCode(task.getProject().getCode());
-            taskData.setPm(task.getProject().getUser().getUsername());
+            if (task.getProject().getUser() != null) {
+                taskData.setPm(task.getProject().getUser().getUsername());
+            }
         }
         return taskData;
     }
@@ -46,7 +48,7 @@ public class TaskConverter {
         task.setProgress(taskData.getProgress());
         task.setStatus(TaskStatus.valueOf(taskData.getStatus()));
 
-        if (!taskData.getAssignee().equals(""))  {
+        if (!taskData.getAssignee().equals("")) {
             User user = userRepository.findByUsername(taskData.getAssignee()).orElseThrow(() -> {
                 throw new UsernameNotFoundException("Username " + taskData.getAssignee() + " not found");
             });

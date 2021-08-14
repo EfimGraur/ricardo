@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.ricardo.pmtool.constants.RequestMappings.AUTH_URL;
+
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping(AUTH_URL)
 @Profile("!test")
 public class AuthenticationControllerV1 {
 
@@ -47,7 +49,7 @@ public class AuthenticationControllerV1 {
         response.put("token", token);
         return ResponseEntity.ok(response);
        }catch (AuthenticationException e){
-           return new ResponseEntity<>("Invalid email/password combination", HttpStatus.FORBIDDEN);
+           return new ResponseEntity<>("Invalid email/password combination", HttpStatus.UNAUTHORIZED);
        }
     }
 

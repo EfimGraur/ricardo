@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,11 +57,12 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.findById(projectId).orElseThrow(()-> {
             throw new UsernameNotFoundException("Project with ID "+projectId+ " not found");
         });
-        User user = userRepository.findByUsername(projectData.getAssignee()).get();
-        project.setCode(projectData.getCode());
-        project.setName(projectData.getName());
-        project.setUser(user);
-
+        Optional<User> user = userRepository.findByUsername(projectData.getAssignee());
+        if(user.isPresent()){
+            project.setCode(projectData.getCode());
+            project.setName(projectData.getName());
+            project.setUser(user.get());
+        }
         projectRepository.save(project);
     }
 }

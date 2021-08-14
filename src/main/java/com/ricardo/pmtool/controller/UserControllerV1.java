@@ -6,7 +6,6 @@ import com.ricardo.pmtool.data.UserData;
 import com.ricardo.pmtool.service.UserService;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +16,7 @@ import java.util.List;
 
 import static com.ricardo.pmtool.constants.GenericConstants.ALL_USERS_QUERY_PARAM;
 import static com.ricardo.pmtool.constants.RequestMappings.USERS_URL;
+import static com.ricardo.pmtool.constants.RequestMappings.USERS_URL_BY_ID;
 
 @RestController
 @RequestMapping(USERS_URL)
@@ -74,19 +74,18 @@ public class UserControllerV1 {
     @PostMapping
     @PreAuthorize("hasAuthority('users:write')")
     public ResponseEntity<Object> createUser(@RequestBody UserData userData) {
-        try
-        {
+        try {
             Long userId = userService.createUser(userData);
 
             URI newUserLocation = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/api/v1/users/{id}")
+                    .path(USERS_URL_BY_ID)
                     .buildAndExpand(userId)
                     .toUri();
 
             return ResponseEntity.created(newUserLocation).build();
-        }
-        catch (final Exception e)
-        {
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
+        } catch (final Exception e) {
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -94,14 +93,13 @@ public class UserControllerV1 {
     @PutMapping("/{userId}")
     @PreAuthorize("hasAuthority('users:write')")
     public ResponseEntity<Object> updateUser(@PathVariable Long userId, @RequestBody UserData userData) {
-        try
-        {
+        try {
             userService.updateUser(userData, userId);
 
             return ResponseEntity.noContent().build();
-        }
-        catch (final Exception e)
-        {
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
+        } catch (final Exception e) {
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }

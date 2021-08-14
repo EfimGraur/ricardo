@@ -9,14 +9,17 @@ import com.ricardo.pmtool.data.UserData;
 import com.ricardo.pmtool.persistence.model.Project;
 import com.ricardo.pmtool.persistence.model.Task;
 import com.ricardo.pmtool.persistence.model.User;
+import com.ricardo.pmtool.persistence.repository.TaskRepository;
 import com.ricardo.pmtool.persistence.repository.UserRepository;
 import com.ricardo.pmtool.roles.Role;
 import com.ricardo.pmtool.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.ricardo.pmtool.constants.GenericConstants.ALL_USERS_QUERY_PARAM;
 
@@ -24,13 +27,16 @@ import static com.ricardo.pmtool.constants.GenericConstants.ALL_USERS_QUERY_PARA
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final TaskRepository taskRepository;
 
     private final UserConverter userConverter;
     private final ProjectConverter projectConverter;
     private final TaskConverter taskConverter;
 
-    public UserServiceImpl(UserRepository userRepository, UserConverter userConverter, ProjectConverter projectConverter, TaskConverter taskConverter) {
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, TaskRepository taskRepository, UserConverter userConverter, ProjectConverter projectConverter, TaskConverter taskConverter) {
         this.userRepository = userRepository;
+        this.taskRepository = taskRepository;
         this.userConverter = userConverter;
         this.projectConverter = projectConverter;
         this.taskConverter = taskConverter;
@@ -55,7 +61,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<TaskData> getAllTasksByUser(long userId) {
         List<Task> userTasks = userRepository.getById(userId).getTasks();
-        return userTasks.stream().map(taskConverter::convert).collect(Collectors.toList());
+        List<Task> unassignedTasks = taskRepository.findAllUnassignedTasks();
+        return Stream.concat(userTasks.stream(), unassignedTasks.stream()).map(taskConverter::convert).collect(Collectors.toList());
     }
 
 

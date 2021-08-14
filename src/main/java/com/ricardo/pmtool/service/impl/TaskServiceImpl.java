@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,16 +65,16 @@ public class TaskServiceImpl implements TaskService {
         if (taskData.getAssignee() == null || taskData.getAssignee().equals("")) {
             task.setUser(null);
         } else {
-            final User user = userRepository.findByUsername(taskData.getAssignee()).get();
-            task.setUser(user);
+            Optional<User> user = userRepository.findByUsername(taskData.getAssignee());
+            user.ifPresent(task::setUser);
         }
 
         //remove task from the project
         if (taskData.getProjectCode() == null || taskData.getProjectCode().equals("")) {
             task.setProject(null);
         } else {
-            final Project project = projectRepository.findByCode(taskData.getProjectCode()).get();
-            task.setProject(project);
+            Optional<Project> project = projectRepository.findByCode(taskData.getProjectCode());
+            project.ifPresent(task::setProject);
         }
 
         taskRepository.save(task);
