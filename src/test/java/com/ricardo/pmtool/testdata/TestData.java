@@ -6,6 +6,11 @@ import com.ricardo.pmtool.data.UserData;
 
 
 public class TestData {
+    //login data
+    public static final String TEST_BASE_URL = "http://localhost:";
+    public static final String TEST_LOGIN_EMAIL = "admin@mail.com";
+    public static final String TEST_PASSWORD = "admin";
+
     //user
     public static final Long TEST_ID = 1L;
     public static final String TEST_EMAIL = "dummy_email";

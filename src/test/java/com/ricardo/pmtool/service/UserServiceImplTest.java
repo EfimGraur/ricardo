@@ -50,6 +50,7 @@ public class UserServiceImplTest {
         List<UserData> users = userService.getAllUsers(ALL_USERS_QUERY_PARAM);
         assertEquals(2, users.size());
     }
+
     //FIXME
     @Test
     @Ignore
